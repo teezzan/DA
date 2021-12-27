@@ -1,4 +1,5 @@
 import { spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import "./font.css";
 
 export const Title: React.FC<{
 	titleText: string;
@@ -10,9 +11,8 @@ export const Title: React.FC<{
 	const frame = useCurrentFrame();
 	const text = titleText.split(' ').map((t) => ` ${t} `);
 	let style = {
-		fontFamily: 'SF Pro Text, Helvetica, Arial',
-		fontWeight: 'bold',
-		fontSize: 100,
+		// fontWeight: 'bold',
+		fontSize: 80,
 		textAlign: 'center',
 		position: 'absolute',
 		width: '100%',
@@ -20,8 +20,10 @@ export const Title: React.FC<{
 
 	if (topMargin) {
 		style.top = topMargin
+		style.fontFamily = 'SF Pro Text, Helvetica, Arial'
 	} else if (bottomMargin) {
 		style.bottom = bottomMargin
+		style.fontFamily = `Noto Naskh Arabic, serif`
 	}
 	return (
 		<h1
