@@ -12,7 +12,7 @@ export const Title: React.FC<{
 	const text = titleText.split(' ').map((t) => ` ${t} `);
 	let style = {
 		// fontWeight: 'bold',
-		fontSize: 80,
+		fontSize: 65,
 		textAlign: 'center',
 		position: 'absolute',
 		width: '100%',
@@ -20,11 +20,11 @@ export const Title: React.FC<{
 
 	if (topMargin) {
 		style.top = topMargin
-		style.fontFamily = 'SF Pro Text, Helvetica, Arial'
-	} else if (bottomMargin) {
-		style.bottom = bottomMargin
 		style.fontFamily = `Noto Naskh Arabic, serif`
 		style.direction = 'rtl'
+	} else if (bottomMargin) {
+		style.bottom = bottomMargin
+		style.fontFamily = 'SF Pro Text, Helvetica, Arial'
 	}
 	return (
 		<h1

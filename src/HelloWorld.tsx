@@ -22,13 +22,13 @@ export const HelloWorld: React.FC<{
 	);
 
 	return (
-		<div style={{flex: 1, backgroundColor: 'white'}}>
+		<div style={{flex: 1, backgroundColor: 'orange'}}>
 			<div style={{opacity}}>
 				<Sequence from={0} >
-					<Title titleText={titleTextEn} titleColor={titleEnColor} topMargin={100} />
+					<Title titleText={titleTextEn} titleColor={titleEnColor} bottomMargin={100} />
 				</Sequence>
 				<Sequence from={0} >
-					<Title titleText={titleTextAr} titleColor={titleArColor} bottomMargin={100} />
+					<Title titleText={titleTextAr} titleColor={titleArColor} topMargin={100} />
 				</Sequence>
 				<Audio src={audioURL} />
 
