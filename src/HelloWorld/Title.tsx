@@ -1,23 +1,31 @@
-import {spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import { spring, useCurrentFrame, useVideoConfig } from 'remotion';
 
 export const Title: React.FC<{
 	titleText: string;
 	titleColor: string;
-}> = ({titleText, titleColor}) => {
+	topMargin?: number;
+	bottomMargin?: number;
+}> = ({ titleText, titleColor, topMargin, bottomMargin }) => {
 	const videoConfig = useVideoConfig();
 	const frame = useCurrentFrame();
 	const text = titleText.split(' ').map((t) => ` ${t} `);
+	let style = {
+		fontFamily: 'SF Pro Text, Helvetica, Arial',
+		fontWeight: 'bold',
+		fontSize: 100,
+		textAlign: 'center',
+		position: 'absolute',
+		width: '100%',
+	} as any;
+
+	if (topMargin) {
+		style.top = topMargin
+	} else if (bottomMargin) {
+		style.bottom = bottomMargin
+	}
 	return (
 		<h1
-			style={{
-				fontFamily: 'SF Pro Text, Helvetica, Arial',
-				fontWeight: 'bold',
-				fontSize: 100,
-				textAlign: 'center',
-				position: 'absolute',
-				bottom: 160,
-				width: '100%',
-			}}
+			style={style}
 		>
 			{text.map((t, i) => {
 				return (

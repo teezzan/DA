@@ -11,7 +11,7 @@ export const Subtitle: React.FC = () => {
 				fontSize: 40,
 				textAlign: 'center',
 				position: 'absolute',
-				bottom: 140,
+				bottom: 100,
 				width: '100%',
 				opacity,
 			}}
