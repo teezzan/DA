@@ -1,23 +1,58 @@
 import { Composition } from 'remotion';
 import { HelloWorld } from './HelloWorld';
+import { continueRender, delayRender } from "remotion";
+import { useEffect, useState } from "react";
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+ function getRandomArbitrary(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}
+
+
+
 export const RemotionVideo: React.FC = () => {
+	const [data, setData] = useState(null);
+	const [handle] = useState(() => delayRender());
+
+	const fetchData = async () => {
+		const response = await fetch(`http://api.alquran.cloud/v1/ayah/${2}:${getRandomArbitrary(1,260)}/editions/en.sahih,ar.alafasy`);
+		const json = await response.json();
+		setData(json.data);
+
+		continueRender(handle);
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
 	return (
-		<>
-			<Composition
-				id="HelloWorld"
-				component={HelloWorld}
-				durationInFrames={960}
-				fps={25}
-				width={1920}
-				height={1080}
-				defaultProps={{
-					titleTextEn: "Indeed, your Lord is Allah, who created the heavens and the earth in six days and then established Himself above the Throne, arranging the matter [of His creation]. There is no intercessor except after His permission. That is Allah, your Lord, so worship Him. Then will you not remember?",
-					titleEnColor: "black",
-					titleTextAr: "\u0625\u0650\u0646\u0651\u064e \u0631\u064e\u0628\u0651\u064e\u0643\u064f\u0645\u064f \u0671\u0644\u0644\u0651\u064e\u0647\u064f \u0671\u0644\u0651\u064e\u0630\u0650\u0649 \u062e\u064e\u0644\u064e\u0642\u064e \u0671\u0644\u0633\u0651\u064e\u0645\u064e\u0670\u0648\u064e\u0670\u062a\u0650 \u0648\u064e\u0671\u0644\u0652\u0623\u064e\u0631\u0652\u0636\u064e \u0641\u0650\u0649 \u0633\u0650\u062a\u0651\u064e\u0629\u0650 \u0623\u064e\u064a\u0651\u064e\u0627\u0645\u064d\u06e2 \u062b\u064f\u0645\u0651\u064e \u0671\u0633\u0652\u062a\u064e\u0648\u064e\u0649\u0670 \u0639\u064e\u0644\u064e\u0649 \u0671\u0644\u0652\u0639\u064e\u0631\u0652\u0634\u0650 \u06d6 \u064a\u064f\u062f\u064e\u0628\u0651\u0650\u0631\u064f \u0671\u0644\u0652\u0623\u064e\u0645\u0652\u0631\u064e \u06d6 \u0645\u064e\u0627 \u0645\u0650\u0646 \u0634\u064e\u0641\u0650\u064a\u0639\u064d \u0625\u0650\u0644\u0651\u064e\u0627 \u0645\u0650\u0646\u06e2 \u0628\u064e\u0639\u0652\u062f\u0650 \u0625\u0650\u0630\u0652\u0646\u0650\u0647\u0650\u06e6 \u06da \u0630\u064e\u0670\u0644\u0650\u0643\u064f\u0645\u064f \u0671\u0644\u0644\u0651\u064e\u0647\u064f \u0631\u064e\u0628\u0651\u064f\u0643\u064f\u0645\u0652 \u0641\u064e\u0671\u0639\u0652\u0628\u064f\u062f\u064f\u0648\u0647\u064f \u06da \u0623\u064e\u0641\u064e\u0644\u064e\u0627 \u062a\u064e\u0630\u064e\u0643\u0651\u064e\u0631\u064f\u0648\u0646\u064e",
-					titleArColor: 'black',
-					audioURL: 'https://cdn.islamic.network/quran/audio/64/ar.alafasy/1367.mp3',
-				}}
-			/>
-		</>
+		<div>
+			{data ? (
+				<>
+					<Composition
+						id="HelloWorld"
+						component={HelloWorld}
+						durationInFrames={960}
+						fps={25}
+						width={1920}
+						height={1080}
+						defaultProps={{
+							//@ts-ignore
+							titleTextEn: data[0].text,
+							//@ts-ignore
+							titleTextAr: data[1].text,
+							//@ts-ignore
+							audioURL: data[1].audio,
+							titleEnColor: "black",
+							titleArColor: 'black',
+						}}
+					/>
+				</>
+			) : null}
+		</div>
 	);
+
 };

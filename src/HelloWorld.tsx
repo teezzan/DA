@@ -22,7 +22,7 @@ export const HelloWorld: React.FC<{
 	);
 
 	return (
-		<div style={{flex: 1, backgroundColor: 'orange'}}>
+		<div style={{flex: 1, backgroundColor: '#54aba0'}}>
 			<div style={{opacity}}>
 				<Sequence from={0} >
 					<Title titleText={titleTextEn} titleColor={titleEnColor} bottomMargin={100} />
