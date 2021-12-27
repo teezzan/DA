@@ -24,6 +24,7 @@ export const Title: React.FC<{
 	} else if (bottomMargin) {
 		style.bottom = bottomMargin
 		style.fontFamily = `Noto Naskh Arabic, serif`
+		style.direction = 'rtl'
 	}
 	return (
 		<h1
