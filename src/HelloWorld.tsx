@@ -26,8 +26,6 @@ export const HelloWorld: React.FC<{
 			<div style={{opacity}}>
 				<Sequence from={0} >
 					<Title titleText={titleTextEn} titleColor={titleEnColor} bottomMargin={100} />
-				</Sequence>
-				<Sequence from={0} >
 					<Title titleText={titleTextAr} titleColor={titleArColor} topMargin={100} />
 				</Sequence>
 				<Audio src={audioURL} />

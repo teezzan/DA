@@ -37,8 +37,8 @@ export const RemotionVideo: React.FC = () => {
 						component={HelloWorld}
 						durationInFrames={960}
 						fps={25}
-						width={1920}
-						height={1080}
+						width={1232}
+						height={2096}
 						defaultProps={{
 							//@ts-ignore
 							titleTextEn: data[0].text,

@@ -9,13 +9,12 @@ export const Title: React.FC<{
 }> = ({ titleText, titleColor, topMargin, bottomMargin }) => {
 	const videoConfig = useVideoConfig();
 	const frame = useCurrentFrame();
-	const text = titleText.split(' ').map((t) => ` ${t} `);
 	let style = {
 		color: titleColor,
-		fontSize: 65,
+		fontSize: 70,
 		textAlign: 'center',
 		position: 'absolute',
-		width: '100%',
+		width: '100%'
 	} as any;
 
 	if (topMargin) {
@@ -30,7 +29,7 @@ export const Title: React.FC<{
 		<h1
 			style={style}
 		>
-			{text}
+			{titleText}
 		</h1>
 	);
 };
