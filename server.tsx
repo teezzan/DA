@@ -5,12 +5,20 @@
  * delete this file.
  */
 
-import {bundle} from '@remotion/bundler';
+import { bundle } from '@remotion/bundler';
+import axios from 'axios';
+
 import {
 	getCompositions,
 	renderFrames,
 	stitchFramesToVideo,
 } from '@remotion/renderer';
+
+const Promise = require('bluebird')
+const ffprobe = Promise.promisify(require('fluent-ffmpeg').ffprobe)
+
+
+
 import express from 'express';
 import fs from 'fs';
 import os from 'os';
@@ -21,6 +29,33 @@ const port = process.env.PORT || 8000;
 const compositionId = 'HelloWorld';
 
 const cache = new Map<string, string>();
+
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+function getRandomArbitrary(min: number, max: number) {
+	return Math.random() * (max - min) + min;
+}
+
+const fetchData = async (surah_no?: number, ayah_no?: number) => {
+	const response = await axios.get(`http://api.alquran.cloud/v1/ayah/${2}:${getRandomArbitrary(1, 283)}/editions/en.sahih,ar.alafasy`);
+	let data = response.data.data;
+	//@ts-ignore
+	const length = await ffprobe(`${process.env.NODE_ENV != 'production' ? data[1].audio.replace("https://cdn.islamic.network", "http://localhost:8010/proxy") : data[1].audio}`);
+	return {
+		titleTextEn: data[0].text,
+		//@ts-ignore
+		titleTextAr: data[1].text,
+		//@ts-ignore
+		audioURL: `${process.env.NODE_ENV != 'production' ? data[1].audio.replace("https://cdn.islamic.network", "http://localhost:8010/proxy") : data[1].audio}`,
+		titleEnColor: "black",
+		titleArColor: 'black',
+		duration: length
+	}
+
+};
+
 
 app.get('/', async (req, res) => {
 	const sendFile = (file: string) => {
@@ -35,8 +70,16 @@ app.get('/', async (req, res) => {
 			sendFile(cache.get(JSON.stringify(req.query)) as string);
 			return;
 		}
+
+
+		// let surah_no = req.query.surah;
+		// let ayah_no = req.query.ayah;
+
+		let inputProps = await fetchData();
+
+
 		const bundled = await bundle(path.join(__dirname, './src/index.tsx'));
-		const comps = await getCompositions(bundled, {inputProps: req.query});
+		const comps = await getCompositions(bundled, { inputProps: req.query });
 		const video = comps.find((c) => c.id === compositionId);
 		if (!video) {
 			throw new Error(`No video called ${compositionId}`);
@@ -46,7 +89,7 @@ app.get('/', async (req, res) => {
 		const tmpDir = await fs.promises.mkdtemp(
 			path.join(os.tmpdir(), 'remotion-')
 		);
-		const {assetsInfo} = await renderFrames({
+		const { assetsInfo } = await renderFrames({
 			config: video,
 			webpackBundle: bundled,
 			onStart: () => console.log('Rendering frames...'),
@@ -57,7 +100,7 @@ app.get('/', async (req, res) => {
 			},
 			parallelism: null,
 			outputDir: tmpDir,
-			inputProps: req.query,
+			inputProps: inputProps,
 			compositionId,
 			imageFormat: 'jpeg',
 		});

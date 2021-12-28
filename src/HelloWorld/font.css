@@ -1,2 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Naskh+Arabic&display=swap');
 
+
+
+.qa{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.ei{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.ei span{
+    padding: 20px;
+    font-size: 68px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.4;
+
+}
+
+.outside{
+    background-color: #54aba0;
+}
+
+.mi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mi span{
+    padding: 20px;
+    font-size: 100px;
+    text-align: center;
+    font-family: Noto Naskh Arabic;
+    direction: rtl;
+}
+.mi h1{
+    padding: 20px;
+    font-size: 68px;
+    text-align: center;
+}
+
+.ei h2{
+    padding: 20px;
+    font-size: 78px;
+    text-align: center;
+    font-weight: bold;
+}

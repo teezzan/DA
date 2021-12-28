@@ -1,5 +1,5 @@
-import {interpolate, Sequence, useCurrentFrame, useVideoConfig, Audio} from 'remotion';
-import {Title} from './HelloWorld/Title';
+import { interpolate, Sequence, useCurrentFrame, useVideoConfig, Audio } from 'remotion';
+import { Title } from './HelloWorld/Title';
 
 export const HelloWorld: React.FC<{
 	titleTextEn: string;
@@ -7,7 +7,7 @@ export const HelloWorld: React.FC<{
 	titleTextAr: string;
 	titleArColor: string;
 	audioURL: string;
-}> = ({titleTextEn, titleEnColor, titleTextAr, titleArColor, audioURL}) => {
+}> = ({ titleTextEn, titleEnColor, titleTextAr, titleArColor, audioURL }) => {
 	const frame = useCurrentFrame();
 	const videoConfig = useVideoConfig();
 
@@ -22,11 +22,10 @@ export const HelloWorld: React.FC<{
 	);
 
 	return (
-		<div style={{flex: 1, backgroundColor: '#54aba0'}}>
-			<div style={{opacity}}>
+		<div style={{ flex: 1, backgroundColor: '#54aba0' }}>
+			<div style={{ opacity }}>
 				<Sequence from={0} >
-					<Title titleText={titleTextEn} titleColor={titleEnColor} bottomMargin={100} />
-					<Title titleText={titleTextAr} titleColor={titleArColor} topMargin={100} />
+					<Title textEn={titleTextEn} textAr={titleTextAr} surahName={'Surah Yunus 10:107'} titleColor={titleEnColor} />
 				</Sequence>
 				<Audio src={audioURL} />
 
