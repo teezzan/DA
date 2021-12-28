@@ -42,8 +42,8 @@ const fetchData = async (surah_no?: number, ayah_no?: number) => {
 	const response = await axios.get(`http://api.alquran.cloud/v1/ayah/${2}:${getRandomArbitrary(1, 283)}/editions/en.sahih,ar.alafasy`);
 	let data = response.data.data;
 	//@ts-ignore
-	const length = await ffprobe(`${process.env.NODE_ENV != 'production' ? data[1].audio.replace("https://cdn.islamic.network", "http://localhost:8010/proxy") : data[1].audio}`);
-	return {
+	const metadata = await ffprobe(`${process.env.NODE_ENV != 'production' ? data[1].audio.replace("https://cdn.islamic.network", "http://localhost:8010/proxy") : data[1].audio}`);
+	let re = {
 		titleTextEn: data[0].text,
 		//@ts-ignore
 		titleTextAr: data[1].text,
@@ -51,8 +51,10 @@ const fetchData = async (surah_no?: number, ayah_no?: number) => {
 		audioURL: `${process.env.NODE_ENV != 'production' ? data[1].audio.replace("https://cdn.islamic.network", "http://localhost:8010/proxy") : data[1].audio}`,
 		titleEnColor: "black",
 		titleArColor: 'black',
-		duration: length
+		duration: metadata.format.duration*25
 	}
+	console.log(re);
+	return re
 
 };
 
@@ -66,10 +68,6 @@ app.get('/', async (req, res) => {
 			});
 	};
 	try {
-		if (cache.get(JSON.stringify(req.query))) {
-			sendFile(cache.get(JSON.stringify(req.query)) as string);
-			return;
-		}
 
 
 		// let surah_no = req.query.surah;
